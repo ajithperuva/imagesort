@@ -1,0 +1,46 @@
+<%if(selImg.length>0){%>
+	<input type="radio" name="pjt_master" value="<%= pjtDir %>"> Set as master
+	<div class="sequencer">
+		<ul class="sortableList <%= pjtDir %>">
+			<% for(var i=0; i<selImg.length; i++) {%>
+			
+				<li id="<%=projectName%>/<%=selImg[i]%>">
+	    			<img class="lazy" src="/img/lazy-load.gif" data-original="/images/<%=projectName%>/<%= selImg[i] %>" title="Click and drag the item">
+					<a class="ui-icon ui-icon-zoomin" title="View larger image" href="/images/<%=projectName%>/<%= selImg[i] %>">View larger</a>
+					<a class="ui-icon ui-icon-trash" title="Delete this image" href="/images/<%=projectName%>/<%= selImg[i] %>" rel="<%= selImg[i] %>">Delete image</a>
+				</li>
+			<% } %>
+		</ul>
+		
+	</div>
+<% } else { %>
+	<div class="alert-box notice" id="b-images">
+	  <span>Info: </span> Add images to <em>"<%=projectName%>/"</em> and 
+  	<a href="javascript:;" class="dir-reload" rel="<%= pjtDir %>" title="Click to reload <%= pjtDir %>"><img src="/img/refesh-icon.png">Click here</a>
+  	<img src="/img/input-loader.gif" class="hide" title="Please wait a moment"/>
+	</div>
+<% } %>
+ <script type="text/javascript">
+	// dom ready
+	$(function() {
+	    $("img:visible").lazyload({
+	     effect      : "fadeIn",
+  		 container: $("#outer-wrapper_<%= pjtDir %>")
+	  	});
+	   // drag and drop
+			    
+		$('.sortableList').sortable( {
+            refreshPositions: true, 
+            opacity: 0.6,
+            scroll:true,
+            
+            connectWith:'.sortableList',
+            placeholder: 'placeholder',
+            tolerance: 'pointer'
+        });
+        
+        $("input[name=pjt_master]:radio").change(function () {
+        	$('#pjt_save').removeClass('hide');
+        });
+	});
+</script>    		

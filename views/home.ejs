@@ -1,0 +1,45 @@
+<% include header %>
+	<div id="outer-wrapper_a" class="main-wrapper">
+		<div class="alert-box notice">
+		  <span>Info: </span> Add images to <em> "<%=projectName%>/a/"</em> and 
+		  <a href="javascript:;" class="dir-reload" rel="a" title="Click to reload a"><img src="/img/refesh-icon.png">Click here</a>
+		  <img src="/img/input-loader.gif" class="hide" title="Please wait a moment"/>
+		</div>
+	</div>
+	<div id="outer-wrapper_b" class="main-wrapper">
+			<div class="alert-box notice" id="b-images">
+			  <span>Info: </span> Add images to <em>"<%=projectName%>/b/"</em> and 
+		  	<a href="javascript:;" class="dir-reload" rel="b" title="Click to reload b"><img src="/img/refesh-icon.png">Click here</a>
+		  	<img src="/img/input-loader.gif" class="hide" title="Please wait a moment"/>
+			</div>
+	</div>
+	
+	<div id="outer-wrapper_c" class="main-wrapper">
+			<div class="alert-box notice">
+			  <span>Info: </span> Add images to <em>"<%=projectName%>/c/"</em> and 
+		  <a href="javascript:;" class="dir-reload" rel="c" title="Click to reload c"><img src="/img/refesh-icon.png">Click here</a>
+		  <img src="/img/input-loader.gif" class="hide" title="Please wait a moment"/>
+			</div>
+	</div>
+	<input type="hidden" id="pjt_name" name="pjt_name" value="<%=projectName%>">
+	
+	<input type="submit" class="btn btn-primary btn-lg hide" id="pjt_save" name="pjt_save" value="Save Project" />
+	<div class="hide save-project">
+		<img src="/img/loader.gif" alt="Saving your project...">
+		<p>
+		Please wait. We're saving your project. Its may take some minutes according to the file size.
+		</p>
+	</div>
+	<div class="hide alert-box" id="save-project-status">
+		Saved Sucessfully.
+	</div>
+	<div class="modal-bg"></div>
+	<div class="modal">
+		<a href="" class="close"></a>
+		<img class="enlarged-img">
+		<span class="image-title"></span>
+	</div>
+	<span class="loader"><img src="/img/loader.gif" alt="Loading..."></span>
+		
+<% include footer %>
+  	

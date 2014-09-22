@@ -1,0 +1,186 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+	<title>Drag and Drop Image Sort</title>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css" media="screen" />
+
+</head>
+<body class="dhe-body">
+
+<input type="hidden" id="projectName" name="projectName" value="<%=projectName%>">
+
+<div class="outer-wrapper1 outer-wrapper" id="container1">
+<input type="radio" name="getphoto" value="First">First
+	<ul class="sortable-list First">
+		<%if(a.length>0){%>
+		<% for(var i=0; i<a.length; i++) {%>
+            <li class="sortable-item" id="<%=projectName%>/a/<%=a[i]%>" >
+            <img class="lazy" src="/img/input-loader.gif" data-original="/images/<%=projectName%>/a/<%= a[i] %>" width="80" height="80">
+            </li>
+	   		<!-- <li class="sortable-item" id="<%=projectName%>/a/<%=a[i]%>" ><img src="/images/<%=projectName%>/a/<%= a[i] %>" id="<%= a[i] %>" width="80" height="80"></li> -->
+		<% } %>
+		<% } else { %>
+			<li class="sortable-item" >ADD image on this folder "<%=projectName%>/a/"</li>
+		<% } %>
+	</ul>
+</div>
+
+<div class="outer-wrapper2 outer-wrapper" id="container2">
+<input type="radio" name="getphoto" value="Second">Second
+	<ul class="sortable-list items Second">
+	<%if(b.length>0){%>
+		<% for(var i=0; i<b.length; i++) {%>
+            <li class="sortable-item" id="<%=projectName%>/b/<%=b[i]%>" >
+            
+            <img class="lazy" src="/img/input-loader.gif" data-original="/images/<%=projectName%>/b/<%= b[i] %>" width="80" height="80">
+            </li>
+	   		<!-- <li class="sortable-item" id="<%=projectName%>/b/<%=b[i]%>" ><img src="/images/<%=projectName%>/b/<%= b[i] %>" id="<%= b[i] %>" width="80" height="80"></li> -->
+		<% } %>
+		<% } else { %>
+			<li class="sortable-item" >ADD image on this folder "<%=projectName%>/b/"</li>
+		<% } %>
+	</ul>
+</div>	
+
+<div class="outer-wrapper3 outer-wrapper" id="container3">
+<input type="radio" name="getphoto" value="Third">Third
+	<ul class="sortable-list items Third">
+	<%if(c.length>0){%>
+		<% for(var i=0; i<c.length; i++) {%>
+            <li class="sortable-item" id="<%=projectName%>/c/<%=c[i]%>" >
+            <img class="lazy" src="/img/input-loader.gif" data-original="/images/<%=projectName%>/c/<%= c[i] %>" width="80" height="80">
+            </li>
+	   		<!-- <li class="sortable-item" id="<%=projectName%>/c/<%=c[i]%>" ><img src="/images/<%=projectName%>/c/<%= c[i] %>" id="<%= c[i] %>" width="80" height="80"></li> -->
+		<% } %>
+		<% } else { %>
+			<li class="sortable-item" >Add image on this folder "<%=projectName%>/c/"</li>
+		<% } %>
+	</ul>
+</div>	
+
+<input type="submit" class="input-button" id="btn-load-example" value="Save" />
+
+<!-- <input type="submit" class="input-button" id="btn-view-home-example" value="clik for refresh" /> -->
+ <a href="/show/<%=projectName%>">clik for refresh</a> 
+
+
+<!-- Example JavaScript files -->
+<script type="text/javascript" src="/stylesheets/jquery-1.4.2.min.js"></script>
+
+<script type="text/javascript" src="/stylesheets/jquery-ui-1.8.custom.min.js"></script>
+<script type="text/javascript" src="/stylesheets/lazyload.js"></script>
+
+<!-- Example jQuery code (JavaScript)  -->
+<script type="text/javascript">
+    $(document).ready(function() {
+    $("img.lazy").lazyload({
+        effect: 'fadeIn',
+        container: $("#container1")
+    });
+     $("img.lazy").lazyload({
+        effect: 'fadeIn',
+        container: $("#container2")
+    });
+      $("img.lazy").lazyload({
+        effect: 'fadeIn',
+        container: $("#container3")
+    });
+
+        $('.outer-wrapper').each(function() {
+            $(this).find('ul').width($(this).find('ul li').length * 90)
+        });
+        // Get items
+        function getItems(exampleNr) {
+            var columns = [];
+
+            $('ul.' + exampleNr).each(function() {
+                columns.push($(this).sortable('toArray').join(','));
+            });
+
+            return columns.join('|');
+        }
+
+
+
+        // Example 2.1: Get items
+        //$('input:radio[name=getphoto]').click(function() {
+        var val = $('input:radio[name=getphoto]:checked').val();
+        $('.sortable-list').sortable({
+            receive: function(e, ui) {
+                $('.outer-wrapper').each(function() {
+                    $(this).find('ul').width($(this).find('ul li').length * 90)
+                });
+            },
+            connectWith: '.sortable-list'
+        });
+        //});
+
+        $('input[type=radio]').change(function() {
+            var val = $('input:radio[name=getphoto]:checked').val();
+            $('.sortable-list').sortable({
+                receive: function(e, ui) {
+                    $('.outer-wrapper').each(function() {
+                        $(this).find('ul').width($(this).find('ul li').length * 90)
+                    });
+                },
+                connectWith: '.sortable-list'
+            });
+        });
+
+
+        $('#btn-view-home-example').click(function() {
+            var projectName = $.trim($("#projectName").val())
+            $.ajax({
+                url: '/show-project',
+                type: "POST",
+                data: {
+                    projectName: $.trim($("#projectName").val())
+                },
+                success: function(data) {
+                    console.log("success")
+                        //window.location="/home?projectName="+projectName;
+                },
+                error: function(error) {
+                    console.log("error")
+                }
+            });
+
+        });
+
+        $('#btn-load-example').click(function() {
+            console.log("submit")
+            var valData = $('input:radio[name=getphoto]:checked').val()
+            var imageNames = getItems(valData);
+            imageNames = $.trim(imageNames);
+            console.log(valData)
+            console.log(imageNames)
+            if (imageNames) {
+                $.ajax({
+                    url: '/save',
+                    datatype: "json",
+                    type: "POST",
+                    data: {
+                        image_names: imageNames,
+                        projectName: $.trim($("#projectName").val())
+                    },
+                    success: function(data) {
+                        console.log("success")
+                    },
+                    error: function(error) {
+                        console.log("error")
+                    }
+                });
+            } else {
+
+            }
+
+        });
+
+
+
+
+    });
+</script>
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+<div id="footer">
+		Copyright © Ramu's Image Sorter, 2014
+	</div>
+</div>
+</body>
+  	
+  	<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	    <script src="/js/1.11.1/jquery.min.js"></script>
+	    <!-- Include all compiled plugins (below), or include individual files as needed -->
+	    
+	    <script src="/js/1.11.1/jquery-ui.js"></script>
+	    
+	    <script type="text/javascript" src="/js/lazyload.js"></script>
+	    
+	    <script src="/js/script.js"></script>
+	    
+	    <script type="text/javascript">
+	    	// dom ready
+    		$(function() {
+    			
+    			var isActive = false;
+        
+        		// Get items
+		        function getItems(exampleNr) {
+		            var columns = [];
+		
+		            $('ul.' + exampleNr).each(function() {
+		                columns.push($(this).sortable('toArray').join(','));
+		            });
+		
+		            return columns.join('|');
+		        }
+			    // save
+			    
+		    	$('#pjt_save').click(function(event) {
+            		event.preventDefault();
+            		if(isActive)
+            			retrun
+        			
+		            var valData = $('input:radio[name=pjt_master]:checked').val();
+		            
+		            var imageNames = getItems(valData);
+		            
+		            imageNames = $.trim(imageNames);
+		            
+		            $('.save-project').removeClass('hide');
+		            
+		            if (imageNames) {
+		            	isActive = true;
+		                $.ajax({
+		                    url: '/save',
+		                    datatype: "json",
+		                    type: "POST",
+		                    data: {
+		                        pjt_images: imageNames,
+		                        flag: Math.random(),
+		                        pjt_name: $.trim($("#pjt_name").val())
+		                    },
+		                    success: function(data) {
+		                        $('.save-project').addClass('hide');
+		                        $('#save-project-status').removeClass('hide').addClass('success');
+		                        $('#save-project-status').html('Well done! Successfully saved your project');
+		                    },
+		                    error: function(error) {
+		                    	$('.save-project').addClass('hide');
+	                         	$('#save-project-status').removeClass('hide').addClass('danger');
+		                        $('#save-project-status').html('Change a few things up and try submitting again. ');
+		                    }
+		                });
+		                isActive = false; 
+		            } else {
+						// not saved
+						$('.save-project').addClass('hide');
+		            }
+					isActive = false; 
+    			});
+    		 	
+		   	});
+    
+	    </script>
+</html>
